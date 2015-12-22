@@ -1,0 +1,25 @@
+﻿@model IEnumerable<ScalabiltyHomework.Data.Entity.Person>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Promote your HERO</h2>
+
+<table class="table">
+@foreach (var item in Model) {
+    <tr>
+        <td width="70px">
+            <img src="@item.GetPicture()" class="avatar" alt="avatar" />
+        </td>
+        <td width="*">
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td width="200px" align="right">
+            <a href="/Heroes/Promote/@item.Id">Promote as Hero</a>
+        </td>
+    </tr>
+}
+
+</table>

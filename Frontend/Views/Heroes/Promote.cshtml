@@ -1,0 +1,40 @@
+﻿@model ScalabiltyHomework.Data.Entity.Hero
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Promote @Model.Person.Name as a HERO</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.PersonId);
+    @Html.HiddenFor(model => model.Person.Name);
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-2">
+                <img src="@Model.Person.GetPicture()" class="avatar-big" alt="avatar" />
+            </div>
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Comment, 5, 35, new { @class = "form-control", placeholder = "Type some coment for promotion" })
+                @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Promote" class="btn btn-default btn-primary" />
+                <a href="/People/Index" class="btn btn-default" role="button">Cancel</a>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
