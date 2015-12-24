@@ -12,6 +12,12 @@ namespace ScalabiltyHomework.Frontend.Controllers
     public class HeroesController : Controller
     {
         private HeroesContext _db = new HeroesContext();
+        private HeroesReadContext _dbRead = new HeroesReadContext();
+
+
+        public HeroesController() {
+            var x = _dbRead.Persons.ToList();
+        }
 
         public ActionResult Index()
         {
@@ -26,7 +32,7 @@ namespace ScalabiltyHomework.Frontend.Controllers
         }
 
         public ActionResult Top()
-        {
+        { 
             var heroes = _db.Heroes.Include(h => h.Person);
             var grouppedHeroes = heroes.GroupBy(h => h.Person.Id);
             var views = new List<HeroView>();
@@ -64,6 +70,8 @@ namespace ScalabiltyHomework.Frontend.Controllers
             {
                 _db.Heroes.Add(hero);
                 _db.SaveChanges();
+
+                //_dbRead.LatestHeroes.Add(new LatestHero())
 
                 // Don't do like this. Create separate messaging service to handle messages and errors collections
                 TempData["Messages"] = new List<string>() { "Congrats! Your hero was promoted." };
