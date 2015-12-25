@@ -1,7 +1,7 @@
 using System.Data.Entity.Migrations;
 using ScalabiltyHomework.Data.Entity;
 
-namespace ScalabiltyHomework.Data.Migrations
+namespace ScalabiltyHomework.Data.Migrations_Read
 {
     public sealed class ConfigurationRead : DbMigrationsConfiguration<HeroesReadContext>
     {
@@ -10,6 +10,7 @@ namespace ScalabiltyHomework.Data.Migrations
         {
             AutomaticMigrationsEnabled = false;
             ContextKey = "ScalabiltyHomework.Data.HeroesReadContext";
+            MigrationsDirectory = @"Migrations_Read";
         }
 
         protected override void Seed(HeroesReadContext context)
