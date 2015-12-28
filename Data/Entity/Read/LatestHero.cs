@@ -17,24 +17,27 @@ namespace ScalabiltyHomework.Data.Entity
             PromotionDate = hero.PromotionDate;            
         }
 
-        public LatestHero(Person person, string comment):base()
+        public LatestHero(PersonRead person, string comment)
+            : base()
         {
-            PersonId = person.Id;
-            PersonName = person.Name;
-            PersonPicture = person.Picture;
-            PersonGender = person.Gender; 
+            MapPropertiesFromPerson(person);
             Comment = comment;
         }
 
-        public LatestHero(Person person, Hero hero)
+        public LatestHero(PersonRead person, HeroRead hero)
+        {
+            MapPropertiesFromPerson(person);
+            
+            Comment = hero.Comment;
+            PromotionDate = hero.PromotionDate;
+        }
+
+        private void MapPropertiesFromPerson(PersonRead person)
         {
             PersonId = person.Id;
             PersonName = person.Name;
             PersonPicture = person.Picture;
             PersonGender = person.Gender;
-            
-            Comment = hero.Comment;
-            PromotionDate = hero.PromotionDate;
         }
         
         public int Id { get; set; }
@@ -44,5 +47,14 @@ namespace ScalabiltyHomework.Data.Entity
         public Gender PersonGender { get; set; }        
         public string Comment { get; set; }
         public DateTime PromotionDate { get; set; }
+
+        public string GetPicture()
+        {
+            var imageFile = !string.IsNullOrEmpty(PersonPicture)
+                ? PersonPicture
+                : PersonGender == Gender.Man ? "man.png" : "woman.png";
+
+            return string.Format("/content/people-images/{0}", imageFile);
+        }
     }
 }

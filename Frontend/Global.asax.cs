@@ -16,6 +16,7 @@ namespace ScalabiltyHomework.Frontend
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            MapperConfig.Register();
 
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<HeroesContext, Data.Migrations.Configuration>());
         }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ScalabiltyHomework.Data.Entity.Hero>
+﻿@model IEnumerable<ScalabiltyHomework.Data.Entity.LatestHero>
 
 @{
     ViewBag.Title = "Index";
@@ -13,7 +13,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Person.Name)
+            @Html.DisplayNameFor(model => model.PersonName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.PromotionDate)
@@ -27,7 +27,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Person.Name)
+            @Html.DisplayFor(modelItem => item.PersonName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PromotionDate)
