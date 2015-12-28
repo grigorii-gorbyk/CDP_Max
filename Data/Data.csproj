@@ -55,6 +55,7 @@
     <Compile Include="Entity\Hero.cs" />
     <Compile Include="Entity\Person.cs" />
     <Compile Include="Entity\Read\HeroRead.cs" />
+    <Compile Include="Entity\Read\TopHero.cs" />
     <Compile Include="Entity\Read\LatestHero.cs" />
     <Compile Include="Entity\Read\PersonRead.cs" />
     <Compile Include="HeroesReadContext.cs" />
@@ -83,6 +84,22 @@
     <Compile Include="Migrations_Read\201512241832408_Initial.Designer.cs">
       <DependentUpon>201512241832408_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations_Read\201512281220007_Add_Votes_Counter.cs" />
+    <Compile Include="Migrations_Read\201512281220007_Add_Votes_Counter.Designer.cs">
+      <DependentUpon>201512281220007_Add_Votes_Counter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations_Read\201512281315497_Add_WriteID.cs" />
+    <Compile Include="Migrations_Read\201512281315497_Add_WriteID.Designer.cs">
+      <DependentUpon>201512281315497_Add_WriteID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations_Read\201512281330282_ChageRelationToPersonRead.cs" />
+    <Compile Include="Migrations_Read\201512281330282_ChageRelationToPersonRead.Designer.cs">
+      <DependentUpon>201512281330282_ChageRelationToPersonRead.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations_Read\201512281359367_Add_PersonWriteId.cs" />
+    <Compile Include="Migrations_Read\201512281359367_Add_PersonWriteId.Designer.cs">
+      <DependentUpon>201512281359367_Add_PersonWriteId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations_Read\ConfigurationRead.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -109,6 +126,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations_Read\201512241832408_Initial.resx">
       <DependentUpon>201512241832408_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations_Read\201512281220007_Add_Votes_Counter.resx">
+      <DependentUpon>201512281220007_Add_Votes_Counter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations_Read\201512281315497_Add_WriteID.resx">
+      <DependentUpon>201512281315497_Add_WriteID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations_Read\201512281330282_ChageRelationToPersonRead.resx">
+      <DependentUpon>201512281330282_ChageRelationToPersonRead.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations_Read\201512281359367_Add_PersonWriteId.resx">
+      <DependentUpon>201512281359367_Add_PersonWriteId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

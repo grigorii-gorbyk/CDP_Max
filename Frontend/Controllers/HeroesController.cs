@@ -8,37 +8,31 @@ using ScalabiltyHomework.Data.Entity;
 using ScalabiltyHomework.Frontend.Controllers.ViewModels;
 using AutoMapper;
 using System;
+using System.Data.Entity.Migrations;
 
 namespace ScalabiltyHomework.Frontend.Controllers
 {
     public class HeroesController : Controller
     {
         private HeroesContext _db = new HeroesContext();
-        private HeroesReadContext _dbRead = new HeroesReadContext();        
-
+        private HeroesReadContext _dbRead = new HeroesReadContext();
+        
         public ActionResult Index()
         {
-            //var heroes = _db.Heroes.Include(h => h.Person);
             return View(_dbRead.LatestHeroes.ToList());
         } 
 
         public ActionResult Latest()
         {
-            //var heroes = _db.Heroes.Include(h => h.Person);
-            var heroes = _dbRead.LatestHeroes.ToList();
+            var heroes = _dbRead.LatestHeroes.OrderByDescending(h => h.Id).Take(100).ToList();
             return View(heroes);
         }
 
         public ActionResult Top()
-        { 
-            var heroes = _db.Heroes.Include(h => h.Person);
-            var grouppedHeroes = heroes.GroupBy(h => h.Person.Id);
-            var views = new List<HeroView>();
-            foreach (var group in grouppedHeroes)
-            {
-                var view = new HeroView(group.FirstOrDefault(), group.Count());
-                views.Add(view);
-            };
+        {
+            var views =
+                Mapper.Map<IList<HeroView>>(
+                    _dbRead.Promotions.OrderByDescending(p => p.Count).Take(100).ToList());
 
             return View(views);
         }
@@ -50,34 +44,33 @@ namespace ScalabiltyHomework.Frontend.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var person = _db.People.Find(id.Value);
+            var person = _dbRead.Persons.FirstOrDefault(p => p.WriteId == id.Value);
             if (person == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
 
-            return View(new Hero(person, ""));
+            return View(new HeroRead(person, ""));
         }
 
         // GET: Heroes/MakeHero/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Promote([Bind(Include = "PersonId,Comment")] Hero hero)
+        public ActionResult Promote([Bind(Include = "PersonId,PersonWriteId,Comment")] HeroRead readHero)
         {
             if (ModelState.IsValid)
             {
-                var writeHero = _db.Heroes.Add(hero);
+                var writeHero = _db.Heroes.Add(Mapper.Map<HeroRead, Hero>(readHero));
                 _db.SaveChanges();
 
-                AddHeroToReadContext(writeHero);
-
+                AddPromotionToReadContext(readHero);
                 // Don't do like this. Create separate messaging service to handle messages and errors collections
-                TempData["Messages"] = new List<string>() { "Congrats! Your hero was promoted." };
+                TempData["Messages"] = new List<string>() { "Congrats! Your readHero was promoted." };
 
                 return RedirectToAction("Index", "People");
             }
-            
-            return View(hero);
+
+            return View(Mapper.Map<HeroRead>(readHero));
         }
 
         protected override void Dispose(bool disposing)
@@ -89,16 +82,28 @@ namespace ScalabiltyHomework.Frontend.Controllers
             base.Dispose(disposing);
         }
         
-        private void AddHeroToReadContext(Hero hero)
+        private void AddPromotionToReadContext(HeroRead readHero)
         {
-            if (hero == null) return;
+            if (readHero == null) return;
 
-            var readHero = _dbRead.Heroes.Add(Mapper.Map<Hero, HeroRead>(hero));
+            //var readHero = _dbRead.Heroes.Add(Mapper.Map<Hero, HeroRead>(readHero));
 
-            var readPerson = _dbRead.Persons.Find(hero.PersonId);
+            var readPerson = _dbRead.Persons.Find(readHero.PersonId);
             if (readPerson == null) throw new InvalidOperationException();
-
+            
+            //Latest view
             _dbRead.LatestHeroes.Add(new LatestHero(readPerson, readHero));
+            
+            //Top promotions view
+            var promotionsData = _dbRead.Promotions.FirstOrDefault(p => p.PersonId == readPerson.Id);
+            if (promotionsData == null)
+            {
+                _dbRead.Promotions.Add(new PersonPromotionsCount(readPerson));
+            }
+            else
+            {
+                promotionsData.Count++;
+            }
 
             _dbRead.SaveChanges();
         }

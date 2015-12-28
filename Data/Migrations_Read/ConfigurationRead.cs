@@ -17,7 +17,7 @@ namespace ScalabiltyHomework.Data.Migrations_Read
         {
             context.Persons.AddOrUpdate(
                 p => p.Name,
-                    new PersonRead { Name = "Alina Dolhova", Gender = Gender.Woman },
+                    new PersonRead { Name = "Alina Dolhova", Gender = Gender.Woman},
                     new PersonRead { Name = "Anatolii Matvieievskyi", Gender = Gender.Man },
                     new PersonRead { Name = "Andrii Savinov", Gender = Gender.Man },
                     new PersonRead { Name = "Anton Demchenko", Gender = Gender.Man },

@@ -8,6 +8,7 @@ namespace ScalabiltyHomework.Data
         {
         }
 
+        public DbSet<Entity.PersonPromotionsCount> Promotions { get; set; }
         public DbSet<Entity.LatestHero> LatestHeroes { get; set; }
         public DbSet<Entity.HeroRead> Heroes { get; set; }
         public DbSet<Entity.PersonRead> Persons { get; set; }

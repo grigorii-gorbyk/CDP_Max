@@ -3,10 +3,11 @@
     public class PersonRead
     {
         public int Id { get; set; }
+        public int WriteId { get; set; }
         public string Name { get; set; }
         public string Picture { get; set; }
         public Gender Gender { get; set; }
-
+        
         public string GetPicture()
         {
             var imageFile = !string.IsNullOrEmpty(Picture)

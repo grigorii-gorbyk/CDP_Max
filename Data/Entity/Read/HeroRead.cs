@@ -17,20 +17,29 @@ namespace ScalabiltyHomework.Data.Entity
             Comment = comment;
         }
 
-        public HeroRead(Person person, string comment)
+        //public HeroRead(Person person, string comment)
+        //{
+        //    Person = person;
+        //    PersonId = person.Id;
+        //    Comment = comment;
+        //}
+
+        public HeroRead(PersonRead person, string comment)
         {
             Person = person;
             PersonId = person.Id;
+            PersonWriteId = person.WriteId;
             Comment = comment;
         }
 
         public int Id { get; set; }
         public int PersonId { get; set; }
+        public int PersonWriteId { get; set; }
         [Required]
         public string Comment { get; set; }
         public DateTime PromotionDate { get; set; }
 
         [ForeignKey("PersonId")]
-        public virtual Person Person { get; set; }
+        public virtual PersonRead Person { get; set; }
     }
 }

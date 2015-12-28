@@ -4,31 +4,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ScalabiltyHomework.Data.Entity
 {
-    public class LatestHero
+    public class PersonPromotionsCount
     {
-        public LatestHero()
+        public PersonPromotionsCount()
         {
-            PromotionDate = DateTime.Now;
         }
 
-        public LatestHero(Hero hero)
+        public PersonPromotionsCount(Hero hero)
         {
             PersonId = hero.PersonId;
-            PromotionDate = hero.PromotionDate;            
         }
 
-        public LatestHero(PersonRead person, string comment)
+        public PersonPromotionsCount(PersonRead person)
         {
             MapPropertiesFromPerson(person);
-            Comment = comment;
-        }
-
-        public LatestHero(PersonRead person, HeroRead hero)
-        {
-            MapPropertiesFromPerson(person);
-            
-            Comment = hero.Comment;
-            PromotionDate = hero.PromotionDate;
         }
 
         private void MapPropertiesFromPerson(PersonRead person)
@@ -37,16 +26,17 @@ namespace ScalabiltyHomework.Data.Entity
             PersonName = person.Name;
             PersonPicture = person.Picture;
             PersonGender = person.Gender;
+
+            Count = 1;
         }
-        
+
         public int Id { get; set; }
         public int PersonId { get; set; }
         public string PersonName { get; set; }
         public string PersonPicture { get; set; }
-        public Gender PersonGender { get; set; }        
-        public string Comment { get; set; }
-        public DateTime PromotionDate { get; set; }
-
+        public Gender PersonGender { get; set; }
+        public int Count { get; set; }
+        
         public string GetPicture()
         {
             var imageFile = !string.IsNullOrEmpty(PersonPicture)

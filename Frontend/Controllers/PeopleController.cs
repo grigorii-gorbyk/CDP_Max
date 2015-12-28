@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using AutoMapper;
 using ScalabiltyHomework.Data;
+using ScalabiltyHomework.Data.Entity;
 
 namespace ScalabiltyHomework.Frontend.Controllers
 {
@@ -8,9 +10,10 @@ namespace ScalabiltyHomework.Frontend.Controllers
     {
         public ActionResult Index()
         {
-            using (var db = new HeroesContext())
+            using (var db = new HeroesReadContext())
             {
-                return View(db.People.ToList());
+                var persons = db.Persons.ToList();
+                return View(persons);
             }
         }
     }

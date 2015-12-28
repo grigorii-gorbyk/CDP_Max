@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ScalabiltyHomework.Data.Entity.Person>
+﻿@model IEnumerable<ScalabiltyHomework.Data.Entity.PersonRead>
 
 @{
     ViewBag.Title = "Index";
@@ -17,7 +17,7 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td width="200px" align="right">
-            <a href="/Heroes/Promote/@item.Id">Promote as Hero</a>
+            <a href="/Heroes/Promote/@item.WriteId">Promote as Hero</a>
         </td>
     </tr>
 }
