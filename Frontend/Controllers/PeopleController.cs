@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using ScalabiltyHomework.Data;
 
@@ -6,11 +7,11 @@ namespace ScalabiltyHomework.Frontend.Controllers
 {
     public class PeopleController : Controller
     {
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             using (var db = new HeroesContext())
             {
-                return View(db.People.ToList());
+                return View(await Task.Run(() => db.People.ToList()));
             }
         }
     }
