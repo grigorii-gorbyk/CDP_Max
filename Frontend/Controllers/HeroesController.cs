@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using Polly;
 using ScalabiltyHomework.Data;
 using ScalabiltyHomework.Data.Entity;
 using ScalabiltyHomework.Frontend.Controllers.ViewModels;
@@ -11,32 +15,86 @@ namespace ScalabiltyHomework.Frontend.Controllers
 {
     public class HeroesController : Controller
     {
-        private HeroesContext _db = new HeroesContext();
+        private Policy _dalPolicy, _controllerPolicy, _viewRenderPolicy;
+        private HeroesContext _db;
 
+        public HeroesController()
+        {
+            _dalPolicy = Policy.Handle<DbException>().Retry(3);
+            _controllerPolicy = Policy.Handle<InvalidOperationException>().Retry();
+            _viewRenderPolicy = Policy.Handle<ViewRenderingException>().Retry();
+
+            _db = new HeroesContext();
+        }
+        
         public ActionResult Index()
         {
-            var heroes = _db.Heroes.Include(h => h.Person);
-            return View(heroes.ToList());
+            //try
+            //{
+
+            var heroes = _dalPolicy.Execute(() => _db.Heroes.Include(h => h.Person).ToList());
+
+            return _viewRenderPolicy.Execute(() => View(heroes));
+            //}
+            //catch
+            //{
+            //    return View("Error");
+            //}
         }
 
         public ActionResult Latest()
         {
-            var heroes = _db.Heroes.Include(h => h.Person);
-            return View(heroes.ToList());
+            //try
+            //{
+            //throw new ViewRenderingException();
+            var heroes = _dalPolicy.Execute(() =>
+            {
+                return _db.Heroes.Include(h => h.Person).ToList();
+            });
+            return _viewRenderPolicy.Execute(() => View(heroes));
+            //}
+            //catch
+            //{
+            //    return View("Error");
+            //}
+        }
+
+        public ActionResult LatestDalError()
+        {
+            var attemptsCount = 0;
+            try
+            {
+                var heroes = _dalPolicy.Execute(() =>
+                {
+                    attemptsCount++;
+                    throw new CustomDbException();
+                    return _db.Heroes.Include(h => h.Person).ToList();
+                });
+                return _viewRenderPolicy.Execute(() => View(heroes));
+            }
+            catch
+            {
+                return View("ErrorWithAttempts", attemptsCount);
+            }
         }
 
         public ActionResult Top()
         {
-            var heroes = _db.Heroes.Include(h => h.Person);
-            var grouppedHeroes = heroes.GroupBy(h => h.Person.Id);
-            var views = new List<HeroView>();
-            foreach (var group in grouppedHeroes)
-            {
-                var view = new HeroView(group.FirstOrDefault(), group.Count());
-                views.Add(view);
-            };
+            var heroes = _dalPolicy.Execute(() => _db.Heroes.Include(h => h.Person).ToList());
 
-            return View(views);
+            var viewData = _controllerPolicy.Execute(() =>
+            {
+                var views = new List<HeroView>();
+                var grouppedHeroes = heroes.GroupBy(h => h.Person.Id);
+                foreach (var group in grouppedHeroes)
+                {
+                    var view = new HeroView(group.FirstOrDefault(), group.Count());
+                    views.Add(view);
+                }
+                return views;
+            });
+
+            return _viewRenderPolicy.Execute(() => View(viewData));
         }
 
         public ActionResult Promote(int? id)
@@ -45,14 +103,14 @@ namespace ScalabiltyHomework.Frontend.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var person = _dalPolicy.Execute(() => _db.People.Find(id.Value));
 
-            var person = _db.People.Find(id.Value);
             if (person == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
 
-            return View(new Hero(person, ""));
+            return _viewRenderPolicy.Execute(() => View(new Hero(person, "")));
         }
 
         // GET: Heroes/MakeHero/5
@@ -62,17 +120,23 @@ namespace ScalabiltyHomework.Frontend.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Heroes.Add(hero);
-                _db.SaveChanges();
+                _dalPolicy.Execute(() =>
+                {
+                    _db.Heroes.Add(hero);
+                    _db.SaveChanges();
+                });
 
-                // Don't do like this. Create separate messaging service to handle messages and errors collections
-                TempData["Messages"] = new List<string>() { "Congrats! Your hero was promoted." };
+                _controllerPolicy.Execute(() =>
+                {
+                    // Don't do like this. Create separate messaging service to handle messages and errors collections
+                    TempData["Messages"] = new List<string>() {"Congrats! Your hero was promoted."};
+                });
 
                 return RedirectToAction("Index", "People");
             }
 
             //var person = db.People.Find(hero.PersonId);
-            return View(hero);
+            return _viewRenderPolicy.Execute(() => View(hero));
         }
 
         protected override void Dispose(bool disposing)
