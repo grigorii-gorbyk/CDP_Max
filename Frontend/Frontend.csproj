@@ -189,9 +189,17 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Contracts\Contracts.csproj">
+      <Project>{2b4b5e1c-29fc-4f74-9033-9f68c0ad2308}</Project>
+      <Name>Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Data.csproj">
       <Project>{e51d5ccd-71cc-4c6c-9f37-62ca2e3d7271}</Project>
       <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReadServuce\Services.csproj">
+      <Project>{900fad6f-2082-4b30-b1e4-93dc1f7eace8}</Project>
+      <Name>Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

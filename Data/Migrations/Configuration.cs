@@ -1,5 +1,6 @@
 using System.Data.Entity.Migrations;
 using ScalabiltyHomework.Data.Entity;
+using ScalabiltyHomework.Contracts.Entities;
 
 namespace ScalabiltyHomework.Data.Migrations
 {

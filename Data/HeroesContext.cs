@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using ScalabiltyHomework.Contracts.Entities;
 
 namespace ScalabiltyHomework.Data
 {
@@ -8,7 +9,7 @@ namespace ScalabiltyHomework.Data
         {
         }
 
-        public DbSet<Entity.Person> People { get; set; }
-        public DbSet<Entity.Hero> Heroes { get; set; }
+        public DbSet<Person> People { get; set; }
+        public DbSet<Hero> Heroes { get; set; }
     }
 }

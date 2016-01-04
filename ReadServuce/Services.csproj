@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E51D5CCD-71CC-4C6C-9F37-62CA2E3D7271}</ProjectGuid>
+    <ProjectGuid>{900FAD6F-2082-4B30-B1E4-93DC1F7EACE8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScalabiltyHomework.Data</RootNamespace>
-    <AssemblyName>ScalabiltyHomework.Data</AssemblyName>
+    <RootNamespace>ReadServuce</RootNamespace>
+    <AssemblyName>ReadServuce</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -42,66 +42,33 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Messaging" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entity\Hero.cs" />
-    <Compile Include="Entity\Person.cs" />
-    <Compile Include="HeroesContext.cs" />
-    <Compile Include="Migrations\201512161657380_InitialCreate.cs" />
-    <Compile Include="Migrations\201512161657380_InitialCreate.Designer.cs">
-      <DependentUpon>201512161657380_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512161722103_AddHeroesTable.cs" />
-    <Compile Include="Migrations\201512161722103_AddHeroesTable.Designer.cs">
-      <DependentUpon>201512161722103_AddHeroesTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512170920520_AddGenderToPeople.cs" />
-    <Compile Include="Migrations\201512170920520_AddGenderToPeople.Designer.cs">
-      <DependentUpon>201512170920520_AddGenderToPeople.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512171029263_AddedPromotionDateToHeroes.cs" />
-    <Compile Include="Migrations\201512171029263_AddedPromotionDateToHeroes.Designer.cs">
-      <DependentUpon>201512171029263_AddedPromotionDateToHeroes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512201410247_MakeHeroCommentObligatory.cs" />
-    <Compile Include="Migrations\201512201410247_MakeHeroCommentObligatory.Designer.cs">
-      <DependentUpon>201512201410247_MakeHeroCommentObligatory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="WriteEFService .cs" />
+    <Compile Include="MessagesHandler.cs" />
+    <Compile Include="WriteService.cs" />
+    <Compile Include="ReadService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512161657380_InitialCreate.resx">
-      <DependentUpon>201512161657380_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512161722103_AddHeroesTable.resx">
-      <DependentUpon>201512161722103_AddHeroesTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512170920520_AddGenderToPeople.resx">
-      <DependentUpon>201512170920520_AddGenderToPeople.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512171029263_AddedPromotionDateToHeroes.resx">
-      <DependentUpon>201512171029263_AddedPromotionDateToHeroes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512201410247_MakeHeroCommentObligatory.resx">
-      <DependentUpon>201512201410247_MakeHeroCommentObligatory.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contracts\Contracts.csproj">
       <Project>{2b4b5e1c-29fc-4f74-9033-9f68c0ad2308}</Project>
       <Name>Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{e51d5ccd-71cc-4c6c-9f37-62ca2e3d7271}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
