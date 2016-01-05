@@ -16,7 +16,7 @@ namespace ScalabiltyHomework.Services
     {
         //private HeroesContext _db = new HeroesContext();
         MessageQueue _queue = new MessageQueue(@".\Private$\CreateHero");
-        
+
         public void CreateHero(Hero hero)
         {
             // send Message                        
@@ -24,9 +24,9 @@ namespace ScalabiltyHomework.Services
             msg.Body = hero;
             msg.Label = "some test label";
             _queue.Send(msg);
-            
+
             // INFO: used instead of retrieving and processing by some remote process.
-            FakeMessagesHandler.HandleHeroMessage();
+            Task.Run(() => FakeMessagesHandler.HandleHeroMessage());
         }
 
         public void Dispose()
