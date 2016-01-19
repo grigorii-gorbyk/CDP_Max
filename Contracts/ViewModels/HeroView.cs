@@ -4,6 +4,11 @@ namespace ScalabiltyHomework.Contracts.ReadModels
 {
     public class HeroView
     {
+        public HeroView()
+        {
+
+        }
+
         public HeroView(Hero hero, int votesCount)
         {
             Id = hero.Id;

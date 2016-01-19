@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using ScalabiltyHomework.Data;
 using ScalabiltyHomework.Contracts;
 using ScalabiltyHomework.Contracts.Entities;
+using ScalabiltyHomework.Contracts.Entities.Read;
 using ScalabiltyHomework.Contracts.ReadModels;
 
 namespace ScalabiltyHomework.Frontend.Controllers
@@ -18,7 +19,7 @@ namespace ScalabiltyHomework.Frontend.Controllers
 
 
         public HeroesController()
-        {
+        {   
             //TODO: USE DI            
             _readService = new ScalabiltyHomework.Services.ReadService();
             _writeService = new ScalabiltyHomework.Services.WriteService();
@@ -50,9 +51,10 @@ namespace ScalabiltyHomework.Frontend.Controllers
             //    views.Add(view);
             //};
 
-            return View(_readService.GetTopHeroes());
+            return View(AutoMapper.Mapper.Map<IEnumerable<HeroView>>(_readService.GetTopHeroes()));
         }
 
+        [HttpGet]
         public ActionResult Promote(int? id)
         {
             if (id == null)
@@ -61,13 +63,13 @@ namespace ScalabiltyHomework.Frontend.Controllers
             }
 
             //var person = _db.People.Find(id.Value);            
-            var person = _readService.Find(id.Value);
+            var person = _readService.FindById(id.Value);
             if (person == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
 
-            return View(new Hero(person, ""));
+            return View(new Hero(AutoMapper.Mapper.Map<PersonRead, Person>(person), ""));
         }
 
         // GET: Heroes/MakeHero/5

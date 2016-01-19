@@ -1,0 +1,18 @@
+﻿1)
+Enable-Migrations
+-ContextTypeName ModelOne.Context.ModelOneContext
+-MigrationsDirectory ModelOneMigrations
+
+Enable-Migrations -ContextTypeName ScalabiltyHomework.Data.HeroesReadContext -MigrationsDirectory Migrations_Read
+
+2)
+add-migration Initial
+  -ConfigurationTypeName ModelOneDbConfig
+add-migration InitialRead -ConfigurationTypeName ScalabiltyHomework.Data.Migrations_Read.ConfigurationRead
+
+3)
+update-database  -ConfigurationTypeName ModelOneDbConfig
+
+update-database  -ConfigurationTypeName ScalabiltyHomework.Data.Migrations.Configuration
+update-database  -ConfigurationTypeName ScalabiltyHomework.Data.Migrations_Read.ConfigurationRead
+

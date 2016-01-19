@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ScalabiltyHomework.Contracts.Entities.Person>
+﻿@model IEnumerable<ScalabiltyHomework.Contracts.Entities.Read.PersonRead>
 
 @{
     ViewBag.Title = "Index";
@@ -8,18 +8,20 @@
 <h2>Promote your HERO</h2>
 
 <table class="table">
-@foreach (var item in Model) {
-    <tr>
-        <td width="70px">
-            <img src="@item.GetPicture()" class="avatar" alt="avatar" />
-        </td>
-        <td width="*">
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td width="200px" align="right">
-            <a href="/Heroes/Promote/@item.Id">Promote as Hero</a>
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td width="70px">
+                <img src="@item.GetPicture()" class="avatar" alt="avatar" />
+            </td>
+            <td width="*">
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td width="200px" align="right">
+                <a href="/Heroes/Promote/@item.WriteId">Promote as Hero</a>
+            </td>
+        </tr>
+    }
 
 </table>
+

@@ -14,31 +14,51 @@ namespace ScalabiltyHomework.Services
 {
     public static class FakeMessagesHandler
     {
-        static MessageQueue _queue = new MessageQueue(@".\Private$\CreateHero");
+        static string _wCreateHeroPath = @".\Private$\CreateHero";
+        static string _rCreateHeroPath = @".\Private$\readCreateHero";
+        //static MessageQueue Read_CreateHeroQueue = new MessageQueue(@".\Private$\Read_CreateHero");
 
-        public static void HandleHeroMessage()
+        public static void HandleMessages()
         {
-            try
+            HandleCreateHeroMessages();
+
+        }
+
+        private static void HandleCreateHeroMessages()
+        {
+
+            using (var createWriteHeroQueue = GetQueue(_wCreateHeroPath))
             {
-                //var message = _queue.Receive(new TimeSpan(0, 0, 1));
-                var messages = _queue.GetAllMessages();
+                //var messages = createWriteHeroQueue.Receive(new TimeSpan(1, 0, 0));// .GetAllMessages();
                 using (var db = new HeroesContext())
                 {
-                    foreach (var message in messages)
+                    foreach (var message in createWriteHeroQueue.GetAllMessages())
                     {
                         message.Formatter = new XmlMessageFormatter(new Type[] { typeof(Hero) });
                         var hero = (Hero)(message.Body);
-
-
                         db.Heroes.Add(hero);
                         db.SaveChanges();
-                    }
-                }                
-            }
-            catch
-            {
 
+                        // delete the message                        
+                        // send messages for read context
+                        CreateHeroForReadContext(hero);
+                    }
+                }
             }
+        }
+
+        private static void CreateHeroForReadContext(Hero hero)
+        {
+            using (var queue = GetQueue(_rCreateHeroPath))
+            {
+                //Message handlers
+            }
+        }
+
+        private static MessageQueue GetQueue(string path)
+        {
+            return
+                MessageQueue.Exists(path) ? new MessageQueue(path) : MessageQueue.Create(path);
         }
     }
 }

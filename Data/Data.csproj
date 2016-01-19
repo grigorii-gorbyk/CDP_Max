@@ -53,6 +53,7 @@
     <Compile Include="Entity\Hero.cs" />
     <Compile Include="Entity\Person.cs" />
     <Compile Include="HeroesContext.cs" />
+    <Compile Include="HeroesReadContext.cs" />
     <Compile Include="Migrations\201512161657380_InitialCreate.cs" />
     <Compile Include="Migrations\201512161657380_InitialCreate.Designer.cs">
       <DependentUpon>201512161657380_InitialCreate.cs</DependentUpon>
@@ -74,6 +75,11 @@
       <DependentUpon>201512201410247_MakeHeroCommentObligatory.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations_Read\201601172338212_InitialRead.cs" />
+    <Compile Include="Migrations_Read\201601172338212_InitialRead.Designer.cs">
+      <DependentUpon>201601172338212_InitialRead.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations_Read\ConfigurationRead.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -96,12 +102,18 @@
     <EmbeddedResource Include="Migrations\201512201410247_MakeHeroCommentObligatory.resx">
       <DependentUpon>201512201410247_MakeHeroCommentObligatory.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations_Read\201601172338212_InitialRead.resx">
+      <DependentUpon>201601172338212_InitialRead.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contracts\Contracts.csproj">
       <Project>{2b4b5e1c-29fc-4f74-9033-9f68c0ad2308}</Project>
       <Name>Contracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EF Migrations commands.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

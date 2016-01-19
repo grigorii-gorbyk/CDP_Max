@@ -42,6 +42,15 @@
   <ItemGroup>
     <Compile Include="Entities\Hero.cs" />
     <Compile Include="Entities\Person.cs" />
+    <Compile Include="Entities\Read\HeroRead.cs" />
+    <Compile Include="Entities\Read\LatestHero.cs" />
+    <Compile Include="Entities\Read\PersonRead.cs" />
+    <Compile Include="Entities\Read\PersonPromotionsCount.cs" />
+    <Compile Include="Queuing\IMessageProvider.cs" />
+    <Compile Include="Queuing\IQueueMetadata.cs" />
+    <Compile Include="Queuing\IMessage.cs" />
+    <Compile Include="Queuing\Messages\AddHeroReadMessage.cs" />
+    <Compile Include="Queuing\Messages\AddHeroMessage.cs" />
     <Compile Include="ViewModels\HeroView.cs" />
     <Compile Include="IWriteService.cs" />
     <Compile Include="IReadeService.cs" />
