@@ -13,5 +13,7 @@ namespace ScalabiltyHomework.Frontend.Controllers
                 return View(db.People.ToList());
             }
         }
+
+        //Some changes in master branch [2]
     }
 }
